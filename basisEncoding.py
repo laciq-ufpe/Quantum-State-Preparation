@@ -67,7 +67,13 @@ def saveStage(qc,x,g,c,currBinaryString):
     counterControl = counterControl + 1
 
 #THE FUNCTION
-def basisEncoding(qc,x,g,c,binaryString):
+def basisEncoding(qc,x,g,c,meas,binaryString):
+
+  startString = ''
+  for char in binaryString[0]:
+    startString = startString + '0'
+  binaryString = binaryString + [startString]
+
   nSize = qc.num_qubits -1
   counter = len(binaryString) - 2
   while(counter >= 0):
@@ -84,22 +90,16 @@ def basisEncoding(qc,x,g,c,binaryString):
 
     counter = counter - 1
 
+  counter = 0
+  while(counter < len(binaryString[0])):
+    qc.measure(x[counter],meas[counter])
+    counter = counter + 1
+
 #Test phase
-"""
-binaryString = ['00','11']
-startString = ''
-for char in binaryString[0]:
-  startString = startString + '0'
 
+binaryString = ['001','010','100']
 qc, x, g, c, meas = createCircuit(len(binaryString[0]))
-
-binaryString = binaryString + [startString]
-basisEncoding(qc,x,g,c,binaryString)
-
-counter = 0
-while(counter < len(binaryString[0])):
-  qc.measure(x[counter],meas[counter])
-  counter = counter + 1
+basisEncoding(qc,x,g,c,meas,binaryString)
 
 qc.draw('mpl')
 
@@ -112,4 +112,3 @@ qc_t.draw('mpl')
 counts = sim.run(qc_t,shots = 100000).result().get_counts()
 plot_histogram(counts)
 
-"""

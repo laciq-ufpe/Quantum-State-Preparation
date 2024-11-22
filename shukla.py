@@ -33,11 +33,11 @@ mString = str(bin(m))
 mString = mString.removeprefix('0b')
 
 mString = mString[::-1]
-print(mString)
+
 listOfIndex = [pos for pos, char in enumerate(mString) if char == '1']
 listOfIndexAux = [x for x in listOfIndex[1:]]
 
-print(listOfIndex)
+
 
 """###Criação do circuito baseado no pseudocódigo proposto no artigo em referências."""
 
@@ -87,7 +87,6 @@ else:
 
 circ.measure_all()
 
-circ.draw('mpl')
 
 """###Etapa de transpilação do circuito
 Podemos perceber que a decomposição em portas unitárias e CNOTs segue a mesma eficiência que a profundidade do algoritmo  
@@ -97,7 +96,6 @@ sim = Aer.get_backend('aer_simulator')
 
 qc_t = transpile(circ, basis_gates=['u', 'cx'])
 
-qc_t.draw('mpl')
 
 """###Etapa de simulação o circuito resultante"""
 
